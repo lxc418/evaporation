@@ -40,11 +40,11 @@ end
 
 n=0:0.001:1;
 
-semilogy (n,K_vr_1);
+plot (n,K_vr_1);
 hold on;
-semilogy (n,K_vr_2);
+plot (n,K_vr_2);
 hold on;
-semilogy (n,K_vr_3);
+plot (n,K_vr_3);
 legend('coarse','medium','fine');
 
 xlim([0.09 1.01]);
