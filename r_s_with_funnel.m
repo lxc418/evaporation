@@ -1,4 +1,5 @@
 %calculate surface resistance
+%coarse sand
 clear
 %constant
 xi=-1.469e-5;% Young_Laplace equation constant(assuming contact angle is zero)
