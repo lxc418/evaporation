@@ -5,6 +5,7 @@ clear
 
 
 
+n     = 0.5;%correction function between TSL and NSL
 %constant
 xi               = -1.469e-5; % Young_Laplace equation constant(assuming contact angle is zero)
 psi_0_m          = -5e4;      % matric potential that corresponds to zero liquid water saturation
@@ -16,17 +17,24 @@ thickness_nsl_m      = 0.05;%thickness of the near?surface soil layer(NSL)
 thickness_aero_edl_m = 1e-3;%thickness of the external diffusive layer(EDL) by aerodynamics
 
 %parameters about soil
-radius_particle_m   = 0.7e-3;%average particle size
 psi_p               = -10;%matric potential in the NSL corresponding to the initial liquid water saturation at early stage IV(m)
 porosity            = 0.40;
 saturation_residual = 0.06;%residual liquid water saturation
 
 %fitting parameter for the van Genuchten soil water retention curve
-av_Pm = 14.5;
-nv    = 2.68;
+%av_Pm = 14.5;
+%nv    = 2.68;
 
-n             = 0.5;%correction function between TSL and NSL
-%saturation_NSL_ay = 0.001:0.001:1;
+%% below are working parameters
+%av_Pm = 14.5;
+%nv    = 2.68;
+%radius_particle_m   = 0.7e-3;%average particle size
+
+
+av_Pm = 14.5/2;
+nv    = 2.68/2;
+radius_particle_m   = 0.7e-3/2;%average particle size
+
 
 %variable
 %Thickness_surface_edl=[]; % thickness of the external diffusive layer by surface resistance
@@ -44,7 +52,8 @@ n             = 0.5;%correction function between TSL and NSL
 
 
 
-psim_m_ay= -[0.01:0.01:0.1,0.2:0.1:1,2:1:10,20:10:100,200:100:1000,2000:1000:50000];
+
+psim_m_ay= -[0.0001:0.0001:0.001,0.001:0.001:0.01,0.01:0.01:0.1,0.2:0.1:1,2:1:10,20:10:100,200:100:1000,2000:1000:50000,60000:1000:600000  ];
 
 
 %opt=SWCC_Fayer1995WRR(psim,-1/o.aa1,o.vn1,-o.phy0,o.swres1);
@@ -91,16 +100,21 @@ surface_resistance_ay_sPm=(thickness_surface_edl_ay+thickness_aero_edl_m)./(diff
 %semilogy(saturation_NSL_ay,surface_resistance_ay_sPm);
 %hold on;
 
+figure
+subplot(4,1,1)
 semilogy(saturation_NSL_ay,k_vr_c_ay);
 hold on;
 semilogy(saturation_NSL_ay,k_vr_v_ay);
 hold on
 semilogy(saturation_NSL_ay,k_vr_ay);
 
-
-figure
+subplot(4,1,2)
 semilogy(saturation_NSL_ay,surface_resistance_ay_sPm);
 hold on;
-semilogy(saturation_NSL_ay,k_vr_v_ay);
-hold on
-semilogy(saturation_NSL_ay,k_vr_ay);
+
+subplot(4,1,3)
+plot(saturation_NSL_ay,thickness_surface_edl_ay)
+
+subplot(4,1,4)
+semilogy(saturation_NSL_ay,-psim_m_ay)
+
