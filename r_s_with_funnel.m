@@ -11,8 +11,8 @@ thickness_nsl=0.05;%thickness of the near?surface soil layer(NSL)
 thickness_aero_edl=1e-3;%thickness of the external diffusive layer(EDL) by aerodynamics
 
 %parameters about soil
+radius_particle=0.7e-3;%average particle size
 psi_p=-10;%matric potential in the NSL corresponding to the initial liquid water saturation at early stage IV(m)
-radius_particle=0.2e-3;%average particle size
 porosity=0.40;
 saturation_residual=0.06;%residual liquid water saturation
 
