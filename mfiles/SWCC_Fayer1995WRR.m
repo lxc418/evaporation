@@ -20,5 +20,5 @@ function [sw,se]=SWCC_Fayer1995WRR(psim,alpha,nv,psim0,slr)
 %      TO20150906
 
 beta = (log(-psim0)-log(-psim))/log(-psim0);
-se   = 1./( 1+(psim*alpha).^nv   ).^(1-1/nv);
+se   = ( 1+(psim*alpha).^nv   ).^(1/nv-1);
 sw   = (1-beta*slr).*se +beta*slr;
