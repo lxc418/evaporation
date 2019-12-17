@@ -24,19 +24,19 @@ free_path_gas_m  = 0.6e-7;    % mean free path of gas molecules at 22 centigrade
 
 %experimental conditions
 thickness_NSL_m      = 0.05;%thickness of the near surface soil layer(NSL)
-thickness_aero_edl_m = 1e-3;%thickness of the external diffusive layer(EDL) by aerodynamics
+thickness_aero_edl_m = 5e-3;%thickness of the external diffusive layer(EDL) by aerodynamics
 
 %parameters about soil
 psi_p_m              = -10;%matric potential in the NSL corresponding to the initial liquid water saturation at early stage IV(m)
 porosity            = 0.39;
 saturation_residual = 0.09;%residual liquid water saturation
-n                   = 0.5;%correction function between TSL and NSL
+n                   = 0.0;%correction function between TSL and NSL
 beta               = pi/4;%the characteristic angle of soil particle shape
 
 %fitting parameter for the van Genuchten soil water rete3tion curve
 % below are working parameters
-av_Pm = 14.5;
-nv    = 2.5 ;
+av_Pm = 10.5;
+nv    = 5.5;
 radius_particle_m   = 3.5e-4;%average particle size
 
 %%
@@ -48,7 +48,7 @@ r_m_ay   = xi./psim_m_ay;
 [saturation_NSL_ay ,saturation_effective_NSL_ay ] = SWCC_Fayer1995WRR(psim_m_ay, -av_Pm, nv, psi_0_m, saturation_residual);
 
 % figure
-% semilogx(-psim_m_ay,saturation_effective_NSL_ay)% test swcc
+% semilogx(-psim_m_ay,saturation_NSL_ay)% test swcc
 % hold on
 
 r_0_ay                  = -xi*av_Pm*(-av_Pm*psim_m_ay).^(nv-1).*(  (1+ (-av_Pm*psim_m_ay).^-nv)  .^(1-1/nv) -1);
@@ -60,18 +60,18 @@ thickness_funnel_edl_ay = radius_particle_m./exp(1/r_c_m.*(r_m_ay-r_0_ay));
 % plot(r_m_ay,-thickness_funnel_edl_ay);
 
 saturation_effective_TSL_ay    = saturation_effective_NSL_ay.^(1+n);
-
-relative_wetted_surface_ay     = saturation_effective_TSL_ay .* (1-thickness_funnel_edl_ay.*(1-porosity)./radius_particle_m);
+    
+% relative_wetted_surface_ay     = saturation_effective_TSL_ay .* (1-thickness_funnel_edl_ay.*(1-porosity)./radius_particle_m);
 % relative_wetted_surface_ay    = r_m_ay.^2./r_2_ay.^2;
 
 % relative_wetted_surface_ay     = saturation_effective_TSL_ay .* (r_m_ay./(r_0_ay+radius_particle_m)).^2;
-% relative_wetted_surface_ay     = saturation_effective_TSL_ay .* ((r_0_ay+radius_particle_m*log(radius_particle_m./thickness_funnel_edl_ay))./(r_0_ay+radius_particle_m)).^2;
+relative_wetted_surface_ay     = saturation_effective_TSL_ay .* ((r_0_ay+radius_particle_m*log(radius_particle_m./thickness_funnel_edl_ay))./(r_0_ay+radius_particle_m)).^2;
 % relative_wetted_surface_ay    = saturation_effective_TSL_ay .* porosity;
 
 % water_content_effective_TSL_ay = relative_wetted_surface_ay.*saturation_effective_TSL_ay;
 water_content_NSL_ay           = porosity .* saturation_NSL_ay;
 
-r_3_ay                         = r_0_ay./relative_wetted_surface_ay.^0.5;
+r_3_ay                         = r_m_ay./relative_wetted_surface_ay.^0.5;
 
 evapo_rate_relative_capillary = 1./(1  +  r_3_ay.^2 .* thickness_funnel_edl_ay./r_2_ay.^2/thickness_aero_edl_m + ...
           r_m_ay./2./thickness_aero_edl_m./relative_wetted_surface_ay .* ...  
@@ -92,6 +92,7 @@ evapo_rate_relative       = evapo_rate_relative_capillary.*(1-evapo_rate_relativ
 
 % surface_resistance_ay_sPm =(thickness_funnel_edl_ay+thickness_aero_edl_m)./(diffusivity_m2Ps*evapo_rate_relative)-thickness_aero_edl_m/diffusivity_m2Ps;
 surface_resistance_ay_sPm = thickness_aero_edl_m/diffusivity_m2Ps*(1./evapo_rate_relative - 1);
+% surface_resistance_ay_sPm = thickness_aero_edl_m/diffusivity_m2Ps./evapo_rate_relative;
 
 %%
 figure
@@ -113,7 +114,7 @@ figure
 
 semilogy(saturation_NSL_ay,surface_resistance_ay_sPm);
 hold on
-% ylim([5e-1 inf])
+ylim([5e-1 inf])
 % % xlim([0 0.4])
 % 
 % % hold on
