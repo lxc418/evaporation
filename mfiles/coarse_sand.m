@@ -9,14 +9,15 @@ diffusivity_m2Ps = 2.63024e-5;   % diffusivity of vapor at 22 centigrade
 free_path_gas_m  = 0.6e-7;    % mean free path of gas molecules at 22 centigrade
 
 %experimental conditions
-thickness_NSL_m      = 0.0015;%thickness of the near surface soil layer(NSL)
+thickness_NSL_m      = 0.002;%thickness of the near surface soil layer(NSL)
 thickness_roughness_m = 0.3e-3;%thickness of the external diffusive layer(EDL) by aerodynamics
 
 %parameters about soil
 psi_p_m              = -1000;%matric potential in the NSL corresponding to the initial liquid water saturation at early stage IV(m)
+psi_b                = -0.06; %radius corresponding to air entry pressure
 porosity             = 0.40;
 saturation_residual  = 0.06;%residual liquid water saturation
-n                    = 0.5;%correction function between TSL and NSL
+n                    = 0.;%correction function between TSL and NSL
 beta                 = pi/4;%the characteristic angle of soil particle shape
 
 %fitting parameter for the van Genuchten soil water rete3tion curve
@@ -26,6 +27,6 @@ nv                   = 8.5;
 radius_particle_m    = 7e-4;%average particle size
 
 % save medium_sand.mat
-% figure
+figure
 
 new_r_s_model

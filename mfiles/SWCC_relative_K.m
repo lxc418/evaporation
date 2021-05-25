@@ -23,8 +23,8 @@ clear
 
 %% Fine
 
-% AA=3.5;
-% VN=7;
+% AA=4.5;
+% VN=8.5;
 % DLAM=5.5;
 % PSI_B=0.27;
 % SWRES=0.1;
@@ -33,24 +33,34 @@ clear
 
 %% Clay
 
-AA=0.015;
-VN=1.5;
+% AA=0.015;
+% VN=1.55;
+% 
+% DLAM=0.4;
+% PSI_B=30;
+% 
+% PSIR = 436; %https://doi.org/10.1139/cgj-2011-0341
+% fred_a = 67.4;
+% fred_n = 2.1;
+% fred_m = 0.68;
+% 
+% SWRES=0.1;
+% porosity=0.53;
+% INTK=1.8e-9; 
 
-DLAM=5.5;
-PSI_B=0.27;
+%% TEST
 
-PSIR = 436;
-fred_a = 67.4;
-fred_n = 2.1;
-fred_m = 0.68;
-
-SWRES=0.06;
+AA=3;
+VN=2.2;
+DLAM=1.1;
+PSI_B=0.3;
+SWRES=0.1;
 porosity=0.55;
-INTK=1.8e-9; 
+INTK=1.15e-11;
 
 %%
 PSIC0=1000000;
-PSIC= [0.01:0.001:1,1:0.01:10,10:1:100,100:10:1000,1000:100:1000000];
+PSIC= [0.25:0.001:1,1:0.01:10,10:1:100,100:10:1000,1000:100:1000000];
       SI       = SWRES*log(PSIC0./PSIC)./log(PSIC0);
       SWRMS1   = 1-SI;
 % model of van      
@@ -72,9 +82,9 @@ PSIC= [0.01:0.001:1,1:0.01:10,10:1:100,100:10:1000,1000:100:1000000];
       water_content_brooks(PSIC <= PSI_B) = porosity;
 % model of fredlund
 
-      fred_fitting = 1 - ( log(1+(PSIC./PSIR)) / log(1+(10e5/PSIR)) ); %PSIR suction (kPa) corresponding to residual
-      SW_fred = fred_fitting.*(log (exp(1)+ (PSIC./fred_a).^fred_n) ).^-fred_m;
-      water_content_fred = SW_fred*porosity;
+%       fred_fitting = 1 - ( log(1+(PSIC./PSIR)) / log(1+(10e5/PSIR)) ); %PSIR suction (kPa) corresponding to residual
+%       SW_fred = fred_fitting.*(log (exp(1)+ (PSIC./fred_a).^fred_n) ).^-fred_m;
+%       water_content_fred = SW_fred*porosity;
 
 
 %% plot k.vs.sw      
@@ -103,19 +113,24 @@ lw=2; %line width
 fz=8; % fontsize
 fl=8; % label font size
 
-% semilogx(PSIC,water_content_brooks,'LineStyle','--','color',[0.0 0.45 0.74],'LineWidth',lw); %et against sat
-semilogx(PSIC,water_content_fred,'LineStyle','--','color',[0.0 0.45 0.74],'LineWidth',lw); %et against sat
-hold on
-semilogx(PSIC,water_content_van,'LineStyle','-','color',[0.0 0.45 0.74],'LineWidth',lw);
+semilogx(PSIC,water_content_brooks,'LineStyle','-','color',[0.0 0.45 0.74],'LineWidth',lw); hold on%et against sat
+% semilogx(PSIC,SW_brooks,'LineStyle','-.','color',[0.0 0.45 0.74],'LineWidth',lw);hold on %et against sat
+% semilogy(SW_brooks,PSIC,'LineStyle','--','color',[0.0 0.45 0.74],'LineWidth',lw); %et against sat
+% hold on
+
+semilogy(PSIC,water_content_van,'LineStyle','-.','color',[0.0 0.45 0.74],'LineWidth',lw);
+% semilogx(PSIC,water_content_fred,'LineStyle','--','color',[0.0 0.45 0.74],'LineWidth',lw); %et against sat
+% semilogy(SW_van,PSIC,'LineStyle','-','color',[0.0 0.45 0.74],'LineWidth',lw);
+
 
 xlabel('Matric potential(m)','FontSize',fz,'FontWeight','bold')
 ylabel('Volumetric water content(-)','FontSize',fz,'FontWeight','bold')
 % hleg1 = legend('Fine sand (Brooks&Corey)','Fine sand (van Genuchten)','Location','Northwest');
-hleg1 = legend('Fine sand (Fredlund)','Fine sand (van Genuchten)','Location','southwest');
-set(hleg1, 'Box', 'on','FontSize',fz,'FontWeight','bold')
+% hleg1 = legend('Fine sand (Fredlund)','Fine sand (van Genuchten)','Location','southwest');
+% set(hleg1, 'Box', 'on','FontSize',fz,'FontWeight','bold')
 ax1 = gca;
 set(ax1,'FontSize',fl,'FontWeight','bold')
 pbaspect([1 1 1])
-axis([0 100000 0 0.58])     
+% axis([0 10 0 1.05])     
 
 
