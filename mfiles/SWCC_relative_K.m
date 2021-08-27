@@ -1,3 +1,4 @@
+%compare swcc from model of Van Genuchten and model of Brooks
 clear    
 %% Coarse
 
@@ -50,17 +51,17 @@ clear
 
 %% TEST
 
-AA=3;
-VN=2.2;
+AA=14.5;
+VN=4.5;
 DLAM=1.1;
 PSI_B=0.3;
-SWRES=0.1;
-porosity=0.55;
+SWRES=0.15;
+porosity=0.4;
 INTK=1.15e-11;
 
 %%
 PSIC0=1000000;
-PSIC= [0.25:0.001:1,1:0.01:10,10:1:100,100:10:1000,1000:100:1000000];
+PSIC= [0.01:0.001:1,1:0.01:10,10:1:100,100:10:1000,1000:100:1000000];
       SI       = SWRES*log(PSIC0./PSIC)./log(PSIC0);
       SWRMS1   = 1-SI;
 % model of van      
@@ -117,6 +118,7 @@ semilogx(PSIC,water_content_brooks,'LineStyle','-','color',[0.0 0.45 0.74],'Line
 % semilogx(PSIC,SW_brooks,'LineStyle','-.','color',[0.0 0.45 0.74],'LineWidth',lw);hold on %et against sat
 % semilogy(SW_brooks,PSIC,'LineStyle','--','color',[0.0 0.45 0.74],'LineWidth',lw); %et against sat
 % hold on
+semilogy(SW_van,RELK_van,'LineStyle','-.','color',[0.0 0.45 0.74],'LineWidth',lw);
 
 semilogy(PSIC,water_content_van,'LineStyle','-.','color',[0.0 0.45 0.74],'LineWidth',lw);
 % semilogx(PSIC,water_content_fred,'LineStyle','--','color',[0.0 0.45 0.74],'LineWidth',lw); %et against sat

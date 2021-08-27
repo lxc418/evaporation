@@ -9,7 +9,7 @@ diffusivity_m2Ps = 2.66928e-5;   % diffusivity of vapor at 22 centigrade
 free_path_gas_m  = 0.68e-7;    % mean free path of gas molecules at 22 centigrade
 
 %experimental conditions
-thickness_NSL_m      = 0.001;%thickness of the near surface soil layer(NSL)
+thickness_NSL_m      = 0.02;%thickness of the near surface soil layer(NSL)
 thickness_roughness_m =0.3e-3;%thickness of the external diffusive layer(EDL) by aerodynamics
 
 %parameters about soil
