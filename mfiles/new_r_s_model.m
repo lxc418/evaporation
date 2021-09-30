@@ -19,12 +19,17 @@
 psim_m_ay= -[0.001:0.001:1,1:0.1:10,10:1:100,100:10:1000,1000:500:-psi_0_m];
 
 r_m_ay   = xi./psim_m_ay;
+
 r_0_ay   = -xi*av_Pm*(-av_Pm*psim_m_ay).^(nv-1).*(  (1+ (-av_Pm*psim_m_ay).^-nv)  .^(1-1/nv) -1);
+% r_m_ay   = r_0_ay;
+
 % r_avg    = -xi*av_Pm*(-av_Pm*psi_b).^(nv-1).*(  (1+ (-av_Pm*psi_b).^-nv)  .^(1-1/nv) -1);
 r_c_m    = radius_particle_m/tan(beta);
 r_2_ay   = r_0_ay+r_c_m;
-thickness_funnel_ay  = radius_particle_m./exp(1/r_c_m.*(r_m_ay-r_0_ay));
-% thickness_funnel_ay  = 0;
+
+% thickness_funnel_ay  = radius_particle_m./exp(1/r_c_m.*(r_m_ay-r_0_ay));
+thickness_funnel_ay  = radius_particle_m./exp(r_m_ay./r_0_ay-1);
+thickness_funnel_ay(thickness_funnel_ay>radius_particle_m)=radius_particle_m;
 
 %reference evaporation
 % psim_m_ref = -0.1;
@@ -41,9 +46,12 @@ thickness_funnel_ay  = radius_particle_m./exp(1/r_c_m.*(r_m_ay-r_0_ay));
 
 % plot(r_m_ay,-thickness_funnel_ay);
 saturation_effective_TSL_ay    = saturation_effective_NSL_ay.^(1+n);
-r_m_ay(r_m_ay>r_2_ay)          = r_2_ay(r_m_ay>r_2_ay);%if r_m>r_2, r_m=r_2    
+r_m_ay(r_m_ay>r_2_ay)          = r_2_ay(r_m_ay>r_2_ay);%if r_m>r_2, r_m=r_2
+
 relative_wetted_surface_ay     = saturation_effective_TSL_ay .* (1-thickness_funnel_ay.*(1-porosity)./radius_particle_m);
 % relative_wetted_surface_ay     = saturation_effective_TSL_ay .* (r_m_ay.^2./r_2_ay.^2);
+% relative_wetted_surface_ay     = saturation_effective_TSL_ay*porosity; % the same as chenming's 
+
 saturation_TSL_ay              = saturation_NSL_ay.^(1+n);
 water_content_TSL_ay           = porosity .* saturation_TSL_ay;
 water_content_NSL_ay           = porosity .* saturation_NSL_ay;
@@ -53,12 +61,12 @@ r_3_ay                         = r_m_ay./(relative_wetted_surface_ay.^0.5);
 
 r_3_ay(r_3_ay<r_2_ay)          = r_2_ay(r_3_ay<r_2_ay);
 r_m_ay(r_3_ay<r_m_ay)          = r_3_ay(r_3_ay<r_m_ay);
-
+% thickness_funnel_ay=0; % test funnel's function 
 evapo_rate_relative_capillary  = 1./(1  +  r_3_ay.^2 .* thickness_funnel_ay./r_2_ay.^2/thickness_diffusion_m + ...
                                 r_m_ay./2./thickness_diffusion_m./relative_wetted_surface_ay .* ...  
                                ( 2*free_path_gas_m./r_m_ay  +  1./ (1+free_path_gas_m./r_m_ay ) - relative_wetted_surface_ay.^0.5)  );
-AAAA=r_3_ay.^2 ./r_2_ay.^2;
-BB=r_m_ay./relative_wetted_surface_ay;
+% AAAA=r_3_ay.^2 ./r_2_ay.^2;
+% BB=r_m_ay./relative_wetted_surface_ay;
 % evapo_rate_relative_capillary  = ((1./r_m_ref-1./r_2_ref+ 2*thickness_funnel_ref/r_2_ref.^2) )  .*   (1./( (r_3_ay-r_m_ay)./(r_m_ay.*r_3_ay) + ...
 %                                   2*thickness_funnel_ay./r_2_ay.^2));
      

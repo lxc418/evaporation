@@ -1,13 +1,13 @@
 %compare swcc from model of Van Genuchten and model of Brooks
 clear    
 %% Coarse
-
-% AA=14;
-% VN=8.5;
-
+% 
+% AA=14.5;
+% VN=6;
+% 
 % DLAM=5; % Lambda in Corey
 % PSI_B=0.06; %sir entry potential
-
+% 
 % SWRES=0.06; %residual saturation
 % porosity=0.40;
 % INTK=10e-9; %intrinsic permeability
@@ -23,7 +23,7 @@ clear
 % INTK=5.67e-11;
 
 %% Fine
-
+% 
 % AA=4.5;
 % VN=8.5;
 % DLAM=5.5;
@@ -51,17 +51,17 @@ clear
 
 %% TEST
 
-AA=14.5;
-VN=4.5;
-DLAM=1.1;
-PSI_B=0.3;
-SWRES=0.15;
+AA=6.4;
+VN=8.;
+DLAM=5;
+PSI_B=0.15;
+SWRES=0.06;
 porosity=0.4;
-INTK=1.15e-11;
+INTK=2.65e-10;
 
 %%
-PSIC0=1000000;
-PSIC= [0.01:0.001:1,1:0.01:10,10:1:100,100:10:1000,1000:100:1000000];
+PSIC0=50000;
+PSIC= [PSI_B:0.001:1,1:0.01:10,10:1:100,100:10:1000,1000:100:50000];
       SI       = SWRES*log(PSIC0./PSIC)./log(PSIC0);
       SWRMS1   = 1-SI;
 % model of van      
@@ -114,16 +114,19 @@ lw=2; %line width
 fz=8; % fontsize
 fl=8; % label font size
 
-semilogx(PSIC,water_content_brooks,'LineStyle','-','color',[0.0 0.45 0.74],'LineWidth',lw); hold on%et against sat
-% semilogx(PSIC,SW_brooks,'LineStyle','-.','color',[0.0 0.45 0.74],'LineWidth',lw);hold on %et against sat
-% semilogy(SW_brooks,PSIC,'LineStyle','--','color',[0.0 0.45 0.74],'LineWidth',lw); %et against sat
-% hold on
-semilogy(SW_van,RELK_van,'LineStyle','-.','color',[0.0 0.45 0.74],'LineWidth',lw);
+% semilogx(PSIC,water_content_brooks,'LineStyle','-','color',[0.0 0.45 0.74],'LineWidth',lw); hold on%et against sat
+semilogx(PSIC,SW_brooks,'LineStyle','-','color',[0.0 0.45 0.74],'LineWidth',lw);hold on %et against sat
+% plot(SW_brooks+0.,PSIC+0.,'LineStyle','--','color',[0.0 0.45 0.74],'LineWidth',lw); %et against sat
 
-semilogy(PSIC,water_content_van,'LineStyle','-.','color',[0.0 0.45 0.74],'LineWidth',lw);
+% semilogy(SW_van,RELK_van,'LineStyle','-.','color',[0.0 0.45 0.74],'LineWidth',lw);hold on
+% semilogy(SW_van,RELK_brooks,'LineStyle','.','color',[0.0 0.45 0.74],'LineWidth',lw);
+
+% semilogx(PSIC,water_content_van,'LineStyle','-.','color',[0.0 0.45 0.74],'LineWidth',lw);
 % semilogx(PSIC,water_content_fred,'LineStyle','--','color',[0.0 0.45 0.74],'LineWidth',lw); %et against sat
 % semilogy(SW_van,PSIC,'LineStyle','-','color',[0.0 0.45 0.74],'LineWidth',lw);
 
+% xlabel('Saturation(-)','FontSize',fz,'FontWeight','bold')
+% ylabel('Matric potential(m)','FontSize',fz,'FontWeight','bold')
 
 xlabel('Matric potential(m)','FontSize',fz,'FontWeight','bold')
 ylabel('Volumetric water content(-)','FontSize',fz,'FontWeight','bold')
@@ -133,6 +136,6 @@ ylabel('Volumetric water content(-)','FontSize',fz,'FontWeight','bold')
 ax1 = gca;
 set(ax1,'FontSize',fl,'FontWeight','bold')
 pbaspect([1 1 1])
-% axis([0 10 0 1.05])     
+% axis([0 1 0 0.3])     
 
 

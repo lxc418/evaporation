@@ -14,15 +14,19 @@ PORSE=porosity*saturation_effective_TSL_cm;
 C =(1./PORSE-1./sqrt(PORSE))./2./thickness_diffusion_m;
 R1EFF=DLAM*xi/(DLAM+1)./psim_m_cm;
 RELKV=1./(1+C.*R1EFF).*(1-evapo_rate_relative_vapor)+evapo_rate_relative_vapor;
+% surface_resistance_cm=thickness_diffusion_m/diffusivity_m2Ps./RELKV;%cm's original
 surface_resistance_cm=thickness_diffusion_m/diffusivity_m2Ps./RELKV-thickness_diffusion_m/diffusivity_m2Ps;
 
 %% van de Griend & Owe
 surface_resistance_van         = 10*exp(35.63*(0.15-water_content_NSL_ay));
 
 %% Schlunder
-evapo_rate_relative_Sch        = 1./(1+2/pi*radius_particle_m/thickness_diffusion_m.*(pi/4./water_content_NSL_ay).^0.5.*((pi/4./water_content_NSL_ay).^0.5-1));
+% r_pore_avg = mean(r_0_ay);
+% r_pore_avg = porosity*radius_particle_m/(1-porosity);
+r_pore_avg = DLAM*(psi_b/xi)^DLAM*(xi/psi_b)^(DLAM+1)/(DLAM+1);
+evapo_rate_relative_Sch        = 1./(1+2/pi*r_pore_avg/thickness_diffusion_m.*(pi/4./water_content_TSL_ay).^0.5.*((pi/4./water_content_TSL_ay).^0.5-1));
 % surface_resistance_Sch         = thickness_diffusion_m/diffusivity_m2Ps./evapo_rate_relative_Sch;
-surface_resistance_Sch          = thickness_diffusion_m/diffusivity_m2Ps./evapo_rate_relative_Sch-thickness_diffusion_m/diffusivity_m2Ps;
+surface_resistance_Sch         = thickness_diffusion_m/diffusivity_m2Ps./evapo_rate_relative_Sch-thickness_diffusion_m/diffusivity_m2Ps;
 
 %% Shu Fen Sun
 % surface_resistance_sun         = 0.335+0.035*(porosity./water_content_NSL_ay).^2.3;
