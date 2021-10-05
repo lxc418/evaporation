@@ -1,4 +1,4 @@
-clear
+% clear
 %parameters of medium sand
 
 %constant
@@ -10,7 +10,7 @@ free_path_gas_m  = 0.6e-7;    % mean free path of gas molecules at 22 centigrade
 
 %experimental conditions
 thickness_NSL_m      = 0.05;%thickness of the near surface soil layer(NSL)
-thickness_diffusion_m = 4e-3;%thickness of the external diffusive layer(EDL) by aerodynamics
+% thickness_diffusion_m = 20e-3;%thickness of the external diffusive layer(EDL) by aerodynamics
 
 %parameters about soil
 psi_p_m              = -10;%matric potential in the NSL corresponding to the initial liquid water saturation at early stage IV(m)
@@ -28,19 +28,19 @@ nv                   = 7.5;
 radius_particle_m    = 2e-4;%average particle size
 
 % save medium_sand.mat
-figure
+% figure
 
 new_r_s_model
-other_Rs_model
-plot_compare_Rs
+% other_Rs_model
+% plot_compare_Rs
 
 %load experiment data
-load('R_original.mat')
-% semilogy(F10_sa(1:30:end)-0.025,F10_R_total(1:30:end)-129,'ro','DisplayName','F10');
-% semilogy(F6_sa(1:30:end)-0.04,F6_R_total(1:30:end)-132,'b^','DisplayName','F6');
-
-semilogy(F10_sa(1:30:end)-0.025,F10_R_total(1:30:end)-261.68,'ro','DisplayName','F10');
-semilogy(F6_sa(1:30:end)-0.04,F6_R_total(1:30:end)-340.71,'b^','DisplayName','F6');
+% load('R_original.mat')
+% % semilogy(F10_sa(1:30:end)-0.025,F10_R_total(1:30:end)-129,'ro','DisplayName','F10');
+% % semilogy(F6_sa(1:30:end)-0.04,F6_R_total(1:30:end)-132,'b^','DisplayName','F6');
+% 
+% semilogy(F10_sa(1:30:end)-0.025,F10_R_total(1:30:end)-261.68,'ro','DisplayName','F10');
+% semilogy(F6_sa(1:30:end)-0.04,F6_R_total(1:30:end)-340.71,'b^','DisplayName','F6');
 
 % semilogy(F10_sa(1:10:end),F10_R_total(1:10:end)-281.68,'ro','DisplayName','F10');
 % semilogy(F6_sa(1:10:end),F6_R_total(1:10:end)-360.71,'b^','DisplayName','F6');
